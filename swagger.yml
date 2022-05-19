@@ -1,0 +1,76 @@
+openapi: "3.0.0"
+info:
+  title: JSON Placeholder API
+  description: https://jsonplaceholder.typicode.com
+  version: 0.3.3
+servers:
+- url: https://jsonplaceholder.typicode.com
+paths:
+  /todos:
+    get:
+      tags:
+      - Todos
+      summary: List of all todos
+      parameters:
+        - in: query
+          name: userId
+          description: Filter todos by user id
+          schema:
+            type: integer
+        - in: query
+          name: _page
+          description: Get todos by page
+          schema:
+            type: integer
+        - in: query
+          name: _limit
+          description: Items per page (defaults to 10 items)
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: |-
+            All todos
+          headers:
+            x-total-count:
+              schema:
+                type: integer
+              description: Total number of items
+          content:
+            application/json:
+              examples: 
+                all:
+                  value:
+                    [
+                      {
+                        "userId": 1,
+                        "id": 1,
+                        "title": "delectus aut autem",
+                        "completed": false
+                      },
+                      {
+                        "userId": 1,
+                        "id": 2,
+                        "title": "quis ut nam facilis et officia qui",
+                        "completed": false
+                      }
+                    ]
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Todo'
+
+components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        userId:
+          type: integer
+        id:
+          type: integer
+        title:
+          type: string
+        completed:
+          type: boolean
+
